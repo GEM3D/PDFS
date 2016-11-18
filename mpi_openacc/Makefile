@@ -17,7 +17,7 @@ OBJS := $(patsubst $(SRC)/%.c,$(OBJ)/%.o,$(wildcard $(SRC)/*.c))
 CC := pgcc -fast -Minfo=accel -ta=tesla:managed
 CCFLAGS := -g -lm
 LDFLAGS := -L$(MPI)/lib -lmpi -L$(HDF)/lib -lhdf5 -L$(NCF)/lib -lnetcdf -L$(SZP)/lib -lsz
-ALFLAGS := $(CCFLAGS) $(ICFLAGS)
+ALFLAGS := $(CCFLAGS) $(LDFLAGS)
 
 TARGET  := $(BIN)/$(EXEC)
 
