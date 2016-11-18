@@ -10,7 +10,7 @@ Here, the two different versions of the parallel FSM are implemented.
    * NVCC (Nvidia C Compiler)
    * Make
    
-* **[Hybrid Memory](): MPI/OpenACC**
+* **[Hybrid Memory](README.md): MPI/OpenACC**
 
   ####Requirements:
   * Graphics Processing Unit (GPU)
@@ -20,12 +20,12 @@ Here, the two different versions of the parallel FSM are implemented.
   * Make
   
 ###Code Compilation
-Execute the make command from withing the folder. Change the location of the directories of the libraries accordingly in the Makefile to correctly build the program.
+Execute the make command from within the folder. Change the location of the directories of the libraries accordingly in the Makefile to correctly build the program.
     
     make
     
 ###Code Execution
-Once you compile the code the binary executable is created within a folder called bin in the same directory. By default the executable is named as PDFS.
+Once you compile the code the binary executable is created within a folder called `bin` in the same directory. By default the executable is named as `PDFS`.
 * **Single GPU CUDA**
 
         Usage: ./bin/PDFS <filename.vti> <outputPrefix>
