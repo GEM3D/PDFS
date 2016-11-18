@@ -5,12 +5,18 @@ SRC := src
 OBJ := obj
 BIN := bin
 
+# Modify the location of these directories
+MPI := $(OPENMPIDIR)
+HDF := $(HDF5DIR)
+SZP := $(SZIPDIR)
+NCF := $(NETCDFDIR)
+
 OBJS := $(patsubst $(SRC)/%.c,$(OBJ)/%.o,$(wildcard $(SRC)/*.c))
 
 # Compiler options
 CC := pgcc -fast -Minfo=accel -ta=tesla:managed
 CCFLAGS := -g -lm
-ICFLAGS := -L/cm/shared/apps/openmpi/openacc-15.7/64/slurm/2.0.1/lib -lmpi -L$(NETCDFDIR)/lib -lnetcdf -I/cm/shared/apps/hdf5_18-openmpi/1.8.17/include -L/cm/shared/apps/hdf5_18-openmpi/1.8.17/lib -lhdf5 -I/cm/shared/apps/szip/1.0/include -L/cm/shared/apps/szip/1.0/lib -lsz
+LDFLAGS := -L$(MPI)/lib -lmpi -L$(HDF)/lib -lhdf5 -L$(NCF)/lib -lnetcdf -L$(SZP)/lib -lsz
 ALFLAGS := $(CCFLAGS) $(ICFLAGS)
 
 TARGET  := $(BIN)/$(EXEC)
