@@ -23,11 +23,11 @@
 #ifndef __MACROLOGGER_H__
 #define __MACROLOGGER_H__
 
+#include "mpi.h"
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 #include <time.h>
-#include "mpi.h"
+#include <unistd.h>
 
 // === auxiliar functions
 static inline char *timenow();
@@ -40,17 +40,18 @@ static inline char *timenow();
 #define DEBUG_LEVEL 0x03
 
 #ifndef LOG_LEVEL
-#define LOG_LEVEL DEBUG_LEVEL
+#define LOG_LEVEL INFO_LEVEL
 #endif
 
-#define PRINTFUNCTION(format, ...)                                             \
-  {                                                                            \
-    int mpiRank; char fname[20];                                               \
-    MPI_Comm_rank(MPI_COMM_WORLD, &mpiRank);                                   \
-    sprintf(fname, "GIN3D-PDFP_%d.log", mpiRank);                              \
-    FILE *log = fopen(fname, "a");                                             \
-    fprintf(log, format, __VA_ARGS__);                                         \
-    fclose(log);                                                               \
+#define PRINTFUNCTION(format, ...)                                                             \
+  {                                                                                            \
+    int  mpiRank;                                                                              \
+    char fname[20];                                                                            \
+    MPI_Comm_rank(MPI_COMM_WORLD, &mpiRank);                                                   \
+    sprintf(fname, "GIN3D-PDFP_%d.log", mpiRank);                                              \
+    FILE *log = fopen(fname, "a");                                                             \
+    fprintf(log, format, __VA_ARGS__);                                                         \
+    fclose(log);                                                                               \
   }
 
 #define LOG_FMT "%s | %-5s | %s | %-10s | %s:%4d | "
@@ -63,38 +64,38 @@ static inline char *timenow();
 #define DEBUG_TAG "DEBUG"
 
 #if LOG_LEVEL >= DEBUG_LEVEL
-#define LOG_DEBUG(message, args...)                                            \
+#define LOG_DEBUG(message, args...)                                                                \
   PRINTFUNCTION(LOG_FMT message NEWLINE, LOG_ARGS(DEBUG_TAG), ##args)
 #else
 #define LOG_DEBUG(message, args...)
 #endif
 
 #if LOG_LEVEL >= INFO_LEVEL
-#define LOG_INFO(message, args...)                                             \
+#define LOG_INFO(message, args...)                                                                 \
   PRINTFUNCTION(LOG_FMT message NEWLINE, LOG_ARGS(INFO_TAG), ##args)
 #else
 #define LOG_INFO(message, args...)
 #endif
 
 #if LOG_LEVEL >= ERROR_LEVEL
-#define LOG_ERROR(message, args...)                                            \
+#define LOG_ERROR(message, args...)                                                                \
   PRINTFUNCTION(LOG_FMT message NEWLINE, LOG_ARGS(ERROR_TAG), ##args)
 #else
 #define LOG_ERROR(message, args...)
 #endif
 
 #if LOG_LEVEL >= NO_LOGS
-#define LOG_IF_ERROR(condition, message, args...)                              \
-  if (condition)                                                               \
-  PRINTFUNCTION(LOG_FMT message NEWLINE, LOG_ARGS(ERROR_TAG), ##args)
+#define LOG_IF_ERROR(condition, message, args...)                                                  \
+  if (condition) PRINTFUNCTION(LOG_FMT message NEWLINE, LOG_ARGS(ERROR_TAG), ##args)
 #else
 #define LOG_IF_ERROR(condition, message, args...)
 #endif
 
-static inline char *timenow() {
+static inline char *timenow()
+{
   static char buffer[64];
-  time_t rawtime;
-  struct tm *timeinfo;
+  time_t      rawtime;
+  struct tm * timeinfo;
 
   time(&rawtime);
   timeinfo = localtime(&rawtime);
@@ -104,7 +105,8 @@ static inline char *timenow() {
   return buffer;
 }
 
-static inline char *hostname() {
+static inline char *hostname()
+{
   static char buffer[8];
 
   gethostname(buffer, sizeof(buffer));
