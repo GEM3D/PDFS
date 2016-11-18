@@ -1,0 +1,16 @@
+# Executables
+*.out
+*.exe
+bin/
+
+# Object Files
+*.obj
+*.o
+obj/
+
+# Input/Output Files
+*.nc
+*.vti
+
+# Log Files
+*.log
