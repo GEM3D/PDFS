@@ -7,15 +7,15 @@ Here, the two different versions of the parallel FSM are implemented.
    ####Requirements:
    * NVIDIA Graphics Processing Unit (GPU)
    * GCC (GNU C Compiler)
-   * NVCC (Nvidia C Compiler)
+   * NVCC (Nvidia CUDA Compiler)
    * Make
    
 * **[Hybrid Memory](README.md): MPI/OpenACC**
 
   ####Requirements:
   * Graphics Processing Unit (GPU)
-  * OpenACC Compiler (PGCC)
-  * MPI
+  * C/OpenACC compiler from PGI Group (pgcc)
+  * MPI library from Open MPI Project
   * NetCDF4 | HDF5 | SZIP
   * Make
   
@@ -30,15 +30,16 @@ Once you compile the code the binary executable is created within a folder calle
 
         Usage: ./bin/PDFS <filename.vti> <outputPrefix>
         
-        filename.vti: VTI input file
+        filename.vti: VTI input file for the initial distance field
         outputPrefix: Prefix string to be added to the output file
 * **MPI/OpenACC**
 
-        Usage: ./bin/PDFS -i <filename.nc> -p <outputPrefix> [-x <val>] [-y <val>] [-z <val>]
+        Usage: mpirun -n <nproc> ./bin/PDFS -i <filename.nc> -p <outputPrefix> [--nx <val>] [--ny <val>] [--nz <val>]
         
-        -i: input:  filename.nc:  NetCDF4 input file
-        -p: prefix: outputPrefix: Prefix string to be added to the output file
-        -x: Decomposition in x (Optional, default 1)
-        -y: Decomposition in y (Optional, default 1)
-        -z: Decomposition in z (Optional, default 1)
+           -i: input:  filename.nc:  NetCDF4 input file for the initial distance field
+           -p: prefix: outputPrefix: Prefix string to be added to the output file
+          -nx: Decomposition in x (Optional, default 1)
+          -ny: Decomposition in y (Optional, default 1)
+          -nz: Decomposition in z (Optional, default 1)
+        nproc: (nx * ny * nz)
    
