@@ -172,7 +172,14 @@ static int checkArgs(int argc, char *argv[], char **ipfile, char *opfile, size_t
   int pflag = 0;
   int opt;
 
-  while ((opt = getopt(argc, argv, "i:p:x:y:z:")) != -1) {
+  static struct option lopts[] = {{"input", required_argument, NULL, 'i'},
+                                  {"prefix", required_argument, NULL, 'p'},
+                                  {"nx", required_argument, NULL, 'x'},
+                                  {"ny", required_argument, NULL, 'y'},
+                                  {"nz", required_argument, NULL, 'z'}};
+
+  while ((opt = getopt_long(argc, argv, "i:p:x:y:z", lopts, NULL)) != -1) {
+    // while ((opt = getopt(argc, argv, "i:p:x:y:z:")) != -1) {
     switch (opt) {
       case 'i':
         *ipfile = optarg;
@@ -195,6 +202,7 @@ static int checkArgs(int argc, char *argv[], char **ipfile, char *opfile, size_t
         if (dim[2] <= 0) return 0;
         break;
       case '?':
+        /*
         if (optopt == 'i' || optopt == 'p') {
           return 0;
         } else if (optopt == 'x' || optopt == 'y' || optopt == 'z') {
@@ -202,7 +210,7 @@ static int checkArgs(int argc, char *argv[], char **ipfile, char *opfile, size_t
         } else {
           mprintf("Invalid option.\n");
           return 0;
-        }
+        }*/
         break;
       default:
         mprintf("Invalid option.\n");
