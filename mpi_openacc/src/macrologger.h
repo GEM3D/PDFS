@@ -43,8 +43,9 @@ static inline char *timenow();
 #define LOG_LEVEL INFO_LEVEL
 #endif
 
-#define PRINTFUNCTION(format, ...)                                                             \
-  {                                                                                            \
+// Redefined - Anup Shrestha - 12 JUL 2016
+#define PRINTFUNCTION(format, ...)                                                                 \
+  {                                                                                              \
     int  mpiRank;                                                                              \
     char fname[20];                                                                            \
     MPI_Comm_rank(MPI_COMM_WORLD, &mpiRank);                                                   \

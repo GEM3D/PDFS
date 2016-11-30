@@ -12,6 +12,28 @@
  *
  * @author     Shrestha, Anup
  * @date       12 JUL 2016
+ *
+ * Copyright (c) 2016
+ * Mechanical and Bio-medical Engineering Department
+ * Boise State University
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
 #include "block_fsm.h"
@@ -39,11 +61,11 @@ static int mpiRank;
 /* Private method definitions */
 static void pdfpStart(char *in, char *out, size_t *blockDim);
 static void mprintf(const char *format, ...);
-static int checkArgs(int argc, char *argv[], char **ipfile, char *opfile,
-                     size_t *dim);
+static int checkArgs(int argc, char *argv[], char **ipfile, char *opfile, size_t *dim);
 /*-----------------------------------------*/
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
   /* Initialize MPI */
   MPI_Init(&argc, &argv);
   MPI_Comm_size(MPI_COMM_WORLD, &mpiSize);
@@ -52,8 +74,8 @@ int main(int argc, char *argv[]) {
   /* MPI Error Handler */
   MPI_Errhandler_set(MPI_COMM_WORLD, MPI_ERRORS_RETURN);
 
-  char *ipfile;                       /* Input filename */
-  char opfile[255];                   /* Output filename */
+  char * ipfile;                      /* Input filename */
+  char   opfile[255];                 /* Output filename */
   size_t blockDim[NDIMS] = {1, 1, 1}; /* New Dimension of decomposed domain */
 
   if (checkArgs(argc, argv, &ipfile, opfile, blockDim)) {
@@ -85,7 +107,8 @@ int main(int argc, char *argv[]) {
  * @param[in]  out       Output filename.
  * @param[in]  blockDim  The dimensions of the block grid.
  */
-static void pdfpStart(char *in, char *out, size_t *blockDim) {
+static void pdfpStart(char *in, char *out, size_t *blockDim)
+{
   int ncidIn;
   int ncidOut;
 
@@ -120,7 +143,8 @@ static void pdfpStart(char *in, char *out, size_t *blockDim) {
  * @param[in]  format     Formatted string to print.
  * @param[in]  <unnamed>  Variable length arguments.
  */
-static void mprintf(const char *format, ...) {
+static void mprintf(const char *format, ...)
+{
   if (mpiRank == 0) {
     va_list args;
     va_start(args, format);
@@ -141,8 +165,8 @@ static void mprintf(const char *format, ...) {
  *
  * @return     1 if successful else 0
  */
-static int checkArgs(int argc, char *argv[], char **ipfile, char *opfile,
-                     size_t *dim) {
+static int checkArgs(int argc, char *argv[], char **ipfile, char *opfile, size_t *dim)
+{
   /* Mandatory option flags */
   int iflag = 0;
   int pflag = 0;
@@ -150,42 +174,39 @@ static int checkArgs(int argc, char *argv[], char **ipfile, char *opfile,
 
   while ((opt = getopt(argc, argv, "i:p:x:y:z:")) != -1) {
     switch (opt) {
-    case 'i':
-      *ipfile = optarg;
-      iflag = 1;
-      break;
-    case 'p':
-      sprintf(opfile, "%s_distfield.nc", optarg);
-      pflag = 1;
-      break;
-    case 'x':
-      dim[0] = strtoumax(optarg, NULL, 10);
-      if (dim[0] <= 0)
-        return 0;
-      break;
-    case 'y':
-      dim[1] = strtoumax(optarg, NULL, 10);
-      if (dim[1] <= 0)
-        return 0;
-      break;
-    case 'z':
-      dim[2] = strtoumax(optarg, NULL, 10);
-      if (dim[2] <= 0)
-        return 0;
-      break;
-    case '?':
-      if (optopt == 'i' || optopt == 'p') {
-        return 0;
-      } else if (optopt == 'x' || optopt == 'y' || optopt == 'z') {
-        mprintf("Missing value for %s, using 1 instead.\n", optopt);
-      } else {
+      case 'i':
+        *ipfile = optarg;
+        iflag   = 1;
+        break;
+      case 'p':
+        sprintf(opfile, "%s_distfield.nc", optarg);
+        pflag = 1;
+        break;
+      case 'x':
+        dim[0] = strtoumax(optarg, NULL, 10);
+        if (dim[0] <= 0) return 0;
+        break;
+      case 'y':
+        dim[1] = strtoumax(optarg, NULL, 10);
+        if (dim[1] <= 0) return 0;
+        break;
+      case 'z':
+        dim[2] = strtoumax(optarg, NULL, 10);
+        if (dim[2] <= 0) return 0;
+        break;
+      case '?':
+        if (optopt == 'i' || optopt == 'p') {
+          return 0;
+        } else if (optopt == 'x' || optopt == 'y' || optopt == 'z') {
+          mprintf("Missing value for %s, using 1 instead.\n", optopt);
+        } else {
+          mprintf("Invalid option.\n");
+          return 0;
+        }
+        break;
+      default:
         mprintf("Invalid option.\n");
         return 0;
-      }
-      break;
-    default:
-      mprintf("Invalid option.\n");
-      return 0;
     }
   }
 

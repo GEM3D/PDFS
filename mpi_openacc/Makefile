@@ -34,7 +34,4 @@ clean:
 	rm -f $(TARGET)
 
 clobber:
-	rm -rf $(BIN) $(OBJ) GIN3D-PDFP_?.log
-
-cmisc: clobber
-	rm -rf dump* bol_* 
+	rm -rf $(BIN) $(OBJ) pdfs_*.log
