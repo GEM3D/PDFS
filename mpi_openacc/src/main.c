@@ -1,14 +1,18 @@
 /**
  * @file main.c
- * @brief      Main program file for Parallel Distance Field Preprocessor.
+ * @brief      Main program file for Parallel Distance Field Solver.
+ *             "Massively Parallel Algorithm for Solving the Eikonal Equation
+ *             on Multiple Accelerator Platforms"
+ *             M.S. in Computer Science
+ *             Boise State University
  *
  *             Required Libraries:
  *              * MPI
  *              * NetCDF-4 | HDF5 | SZIP
  *              * OpenACC
  *             Usage:
- *              <progName> -i <filename.nc> -p <outputPrefix> [-x <val>]
- *              [-y <val>] [-z <val>]
+ *              <progName> -i <filename.nc> -p <outputPrefix> [--nx <val>]
+ *              [--ny <val>] [--nz <val>]
  *
  * @author     Shrestha, Anup
  * @date       12 JUL 2016
@@ -83,14 +87,14 @@ int main(int argc, char *argv[])
     mprintf(" Input: %s\n", ipfile);
     mprintf("Output: %s\n", opfile);
     mprintf("------------------------\n");
-    mprintf("x: %d, y: %d, z: %d\n", blockDim[0], blockDim[1], blockDim[2]);
+    mprintf("nx: %d, ny: %d, nz: %d\n", blockDim[0], blockDim[1], blockDim[2]);
     mprintf("------------------------\n");
 
     pdfpStart(ipfile, opfile, blockDim);
 
   } else {
-    mprintf("\nUsage: %s -i <filename.nc> -p <outputPrefix> [-nx <val>] [-ny "
-            "<val>] [-nz <val>]\n\n",
+    mprintf("\nUsage: %s -i <filename.nc> -p <outputPrefix> [--nx <val>] [--ny "
+            "<val>] [--nz <val>]\n\n",
             argv[0]);
   }
 
@@ -179,14 +183,13 @@ static int checkArgs(int argc, char *argv[], char **ipfile, char *opfile, size_t
                                   {"nz", required_argument, NULL, 'z'}};
 
   while ((opt = getopt_long(argc, argv, "i:p:x:y:z", lopts, NULL)) != -1) {
-    // while ((opt = getopt(argc, argv, "i:p:x:y:z:")) != -1) {
     switch (opt) {
       case 'i':
         *ipfile = optarg;
         iflag   = 1;
         break;
       case 'p':
-        sprintf(opfile, "%s_distfield.nc", optarg);
+        sprintf(opfile, "%s_soln.nc", optarg);
         pflag = 1;
         break;
       case 'x':
@@ -202,15 +205,6 @@ static int checkArgs(int argc, char *argv[], char **ipfile, char *opfile, size_t
         if (dim[2] <= 0) return 0;
         break;
       case '?':
-        /*
-        if (optopt == 'i' || optopt == 'p') {
-          return 0;
-        } else if (optopt == 'x' || optopt == 'y' || optopt == 'z') {
-          mprintf("Missing value for %s, using 1 instead.\n", optopt);
-        } else {
-          mprintf("Invalid option.\n");
-          return 0;
-        }*/
         break;
       default:
         mprintf("Invalid option.\n");
