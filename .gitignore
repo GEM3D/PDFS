@@ -8,9 +8,5 @@ bin/
 *.o
 obj/
 
-# Input/Output Files
-*.nc
-*.vti
-
 # Log Files
 *.log
