@@ -23,6 +23,9 @@ Here, the two different versions of the parallel FSM are implemented.
 Execute the make command from within the folder. Change the location of the directories of the libraries accordingly in the Makefile to correctly build the program.
     
     make
+Change the log level, default log level INFO.
+    
+    make log=[NO|ERROR|INFO|DEBUG]
     
 ###Code Execution
 Once you compile the code the binary executable is created within a folder called `bin` in the same directory. By default the executable is named as `PDFS`.
@@ -38,8 +41,8 @@ Once you compile the code the binary executable is created within a folder calle
         
            -i: input:  filename.nc:  NetCDF4 input file for the initial distance field
            -p: prefix: outputPrefix: Prefix string to be added to the output file
-          -nx: Decomposition in x (Optional, default 1)
-          -ny: Decomposition in y (Optional, default 1)
-          -nz: Decomposition in z (Optional, default 1)
+         --nx: Decomposition in x (Optional, default 1)
+         --ny: Decomposition in y (Optional, default 1)
+         --nz: Decomposition in z (Optional, default 1)
         nproc: (nx * ny * nz)
    
