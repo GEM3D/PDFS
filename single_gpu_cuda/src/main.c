@@ -1,6 +1,10 @@
 /**
  * @file main.c
  * @brief      Main program file for Parallel Distance Field Preprocessor.
+ *             "Massively Parallel Algorithm for Solving the Eikonal Equation
+ *             on Multiple Accelerator Platforms"
+ *             M.S. in Computer Science
+ *             Boise State University
  *
  *             Calculates the distance field for an interface in a
  *             given VTI file by solving the Eikonal equation using
