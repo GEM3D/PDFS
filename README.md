@@ -1,10 +1,10 @@
-#Parallel Distance Field Solver (PDFS)
+# Parallel Distance Field Solver (PDFS)
 A three dimensional Eikonal equation solver using the parallel Fast Sweeping Method (FSM) that computes the distance field of the given domain. [FSM](http://www.math.uci.edu/~zhao/homepage/research_files/FSM.pdf) is an iterative algorithm that uses upwind difference scheme for discretization and Gauss-Seidel iterations with alternating sweeping orderings to solve the discretized system.
 
 Here, the two different versions of the parallel FSM are implemented.
 * **[Shared Memory](http://www.sciencedirect.com/science/article/pii/S002199911200722X): Single GPU (CUDA)**
 
-   ####Requirements:
+   #### Requirements:
    * NVIDIA Graphics Processing Unit (GPU)
    * GCC (GNU C Compiler)
    * NVCC (Nvidia CUDA Compiler)
@@ -12,14 +12,14 @@ Here, the two different versions of the parallel FSM are implemented.
    
 * **[Hybrid Memory](README.md): MPI/OpenACC**
 
-  ####Requirements:
+  #### Requirements:
   * Graphics Processing Unit (GPU)
   * C/OpenACC compiler from PGI Group (pgcc)
   * MPI library from Open MPI Project
   * NetCDF4 | HDF5 | SZIP
   * Make
   
-###Code Compilation
+### Code Compilation
 Execute the make command from within the folder. Change the location of the directories of the libraries accordingly in the Makefile to correctly build the program.
     
     make
@@ -27,7 +27,7 @@ Change the log level, default log level INFO.
     
     make log=[NO|ERROR|INFO|DEBUG]
     
-###Code Execution
+### Code Execution
 Once you compile the code the binary executable is created within a folder called `bin` in the same directory. By default the executable is named as `PDFS`.
 * **Single GPU CUDA**
 
