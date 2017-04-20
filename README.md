@@ -1,6 +1,8 @@
 # Parallel Distance Field Solver (PDFS)
 A three dimensional Eikonal equation solver using the parallel Fast Sweeping Method (FSM) that computes the distance field of the given domain. [FSM](http://www.math.uci.edu/~zhao/homepage/research_files/FSM.pdf) is an iterative algorithm that uses upwind difference scheme for discretization and Gauss-Seidel iterations with alternating sweeping orderings to solve the discretized system.
 
+[![DOI](https://zenodo.org/badge/74052086.svg)](https://zenodo.org/badge/latestdoi/74052086)
+
 Here, the two different versions of the parallel FSM are implemented.
 * **[Shared Memory](http://www.sciencedirect.com/science/article/pii/S002199911200722X): Single GPU (CUDA)**
 
